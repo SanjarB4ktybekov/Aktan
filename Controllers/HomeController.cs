@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Aktan.Models;
+using Aktan.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aktan.Controllers
 {
@@ -18,15 +20,13 @@ namespace Aktan.Controllers
         }
         public IActionResult Index()
         {
-            _context.Customers.Add(new Entities.Customer{CustomerName = "Sanzhar", DiscountForCustomer=0});
-            var list = _context.Units.ToList();
-            System.Console.WriteLine(list.Count);
-            _context.SaveChanges();
             return View();
+            
         }
         public IActionResult Lobby()
         {
-            return View();
+            List<UnitViewModel> list = _context.Units.Select(u => new UnitViewModel { UnitNumber = u.UnitNumber, isActive = u.isActive, URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png" }).ToList();
+            return View(list);
         }
         public IActionResult Privacy()
         {

@@ -7,11 +7,15 @@
 <div class="text-center">
     <h1 class="display-4">Состояния оборудования</h1>
     <div>
-        <div class="card" style="width: 18rem;">
-            <img src="~/icons/Ready.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text"></p>
+        @foreach (var item in Model)
+        {
+            <h1>@item.URL</h1>
+            <div class="card" style="width: 18rem;">
+                <img src="@item.URL" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text"></p>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </div>
