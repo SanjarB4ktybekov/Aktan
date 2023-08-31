@@ -25,7 +25,14 @@ namespace Aktan.Controllers
         }
         public IActionResult Lobby()
         {
-            List<UnitViewModel> list = _context.Units.Select(u => new UnitViewModel { UnitNumber = u.UnitNumber, isActive = u.isActive, URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png" }).ToList();
+            List<UnitViewModel> list = 
+            _context.Units.Select(u => 
+                new UnitViewModel 
+                    { 
+                        UnitNumber = u.UnitNumber, 
+                        isActive = u.isActive, 
+                        URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png" 
+                    }).ToList();
             return View(list);
         }
         public IActionResult Privacy()

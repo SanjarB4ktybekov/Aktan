@@ -6,16 +6,27 @@
 
 <div class="text-center">
     <h1 class="display-4">Состояния оборудования</h1>
-    <div>
+    <div class="grid text-center">
         @foreach (var item in Model)
         {
-            <h1>@item.URL</h1>
-            <div class="card" style="width: 18rem;">
-                <img src="@item.URL" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text"></p>
+            @if (item.isActive)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img src="~/icons/Play.png" class="card-img-top" alt="play icon">
+                    <div class="card-body">
+                        <p class="card-text">Устройство @item.UnitNumber на данный момент используется</p>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="card" style="width: 18rem;">
+                    <img src="~/icons/Ready.png" class="card-img-top" alt="ready icon">
+                    <div class="card-body">
+                        <p class="card-text">Устройство @item.UnitNumber на данный момент свободно</p>
+                    </div>
+                </div>
+            }
         }
     </div>
 </div>
