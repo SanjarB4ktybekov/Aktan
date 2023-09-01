@@ -11,7 +11,7 @@ namespace Aktan.Models
     {
         public DateTime Start{get;set;}
         public DateTime End{get;set;}
-        public Customer _Customer{get;set;}
+        public int CustomerId{get;set;}
         public double Sum{get;set;}
     }
 }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Aktan.Entities
+
+@{
     ViewData["Title"] = "Главная страница";
 }
 
@@ -6,7 +8,9 @@
 
 <div class="text-center">
     <h1 class="display-4">Состояния оборудования</h1>
+    <hr>
     <div class="card">
+        <h2 class="display-4">Активировать Оборудование</h2>
         <div class="card-body">
             <form method="post" action="MakeOrder">
                 <select name="unit" class="form-select text-bg-success p-3" aria-label="Пример выбора по умолчанию">
@@ -18,15 +22,38 @@
                         }
                     }
                 </select>
+
+                <select name="customer" class="form-select text-bg-success p-3" aria-label="Пример выбора по умолчанию">
+                    @foreach (var item in (List<Customer>)ViewData["Customers"])
+                    {
+                        <option value="@item.CustomerId">Роль: @item.CustomerName</option>
+                    }
+                </select>
+
                 <div class="mb-3">
                     <label for="Sum" class="form-label">Введите сумму</label>
-                    <input type="number" class="form-control small" name="Sum">
+                    <input type="number" class="form-control small" id="userInput" name="Sum">
                 </div>
                 <button type="submit" class="btn btn-primary">Создать</button>
             </form>
+            @await Html.PartialAsync("_GetMessage")
+            <div id="partialViewContainer"></div>
         </div>
     </div>
-
+    <script>
+        // Обработка события ввода
+        document.getElementById("userInput").addEventListener("input", function () {
+            var userInput = this.value;
+            fetch("/Home/Calculate?input=" + userInput)
+                .then(response => response.text()) // Возвращает ответ как текст
+                .then(data => {
+                    // Обновление содержимого частичного представления
+                    document.getElementById("partialViewContainer").innerHTML = data;
+                })
+                .catch(error => console.error("Ошибка: " + error));
+        });
+    </script>
+    <hr>
     <div class="container text-center">
         <div class="row justify-content-evenly">
             @foreach (var item in Model)
@@ -56,4 +83,5 @@
             }
         </div>
     </div>
+    <hr>
 </div>

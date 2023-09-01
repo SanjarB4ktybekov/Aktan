@@ -22,34 +22,51 @@ namespace Aktan.Controllers
         public IActionResult Index()
         {
             return View();
-            
+
         }
-        [HttpPost]
-        public IActionResult MakeOrder(string unit, int Sum)
+        public ActionResult GetMessage()
         {
-            System.Console.WriteLine($"Unit = {unit}, Sum = {Sum}");
-            List<UnitViewModel> list = 
-            _context.Units.Select(u => 
-                new UnitViewModel 
-                    { 
-                        UnitId = u.UnitId,
-                        UnitNumber = u.UnitNumber, 
-                        isActive = u.isActive, 
-                        URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png" 
-                    }).ToList();
-            return View("Lobby", list);
+        
+            return PartialView("_GetMessage");
+        }
+
+        public IActionResult Calculate(int input)
+        {
+            return PartialView("Calc", input);
+        }
+        
+
+        [HttpPost]
+        public IActionResult MakeOrder(int unit, int Sum, int customer)
+        {
+            System.Console.WriteLine($"Unit = {unit}, Sum = {Sum}, Cus = {customer}");
+
+            var unitController = new UnitController(unit, customer);
+            ViewData["Customers"] = _context.Customers.ToList();
+            List<UnitViewModel> list =
+            _context.Units.Select(u =>
+                new UnitViewModel
+                {
+                    UnitId = u.UnitId,
+                    UnitNumber = u.UnitNumber,
+                    isActive = u.isActive,
+                    URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png"
+                }).ToList();
+            return View("Lobby",list);
+            
         }
         public IActionResult Lobby()
         {
-            List<UnitViewModel> list = 
-            _context.Units.Select(u => 
-                new UnitViewModel 
-                    { 
-                        UnitId = u.UnitId,
-                        UnitNumber = u.UnitNumber, 
-                        isActive = u.isActive, 
-                        URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png" 
-                    }).ToList();
+            ViewData["Customers"] = _context.Customers.ToList();
+            List<UnitViewModel> list =
+            _context.Units.Select(u =>
+                new UnitViewModel
+                {
+                    UnitId = u.UnitId,
+                    UnitNumber = u.UnitNumber,
+                    isActive = u.isActive,
+                    URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png"
+                }).ToList();
             return View(list);
         }
         public IActionResult Privacy()
