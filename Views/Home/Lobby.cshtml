@@ -6,27 +6,54 @@
 
 <div class="text-center">
     <h1 class="display-4">Состояния оборудования</h1>
-    <div class="grid text-center">
-        @foreach (var item in Model)
-        {
-            @if (item.isActive)
-            {
-                <div class="card" style="width: 18rem;">
-                    <img src="~/icons/Play.png" class="card-img-top" alt="play icon">
-                    <div class="card-body">
-                        <p class="card-text">Устройство @item.UnitNumber на данный момент используется</p>
-                    </div>
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="MakeOrder">
+                <select name="unit" class="form-select text-bg-success p-3" aria-label="Пример выбора по умолчанию">
+                    @foreach (var item in Model)
+                    {
+                        @if (!item.isActive)
+                        {
+                            <option value="@item.UnitId">Оборудование @item.UnitNumber</option>
+                        }
+                    }
+                </select>
+                <div class="mb-3">
+                    <label for="Sum" class="form-label">Введите сумму</label>
+                    <input type="number" class="form-control small" name="Sum">
                 </div>
-            }
-            else
+                <button type="submit" class="btn btn-primary">Создать</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <div class="row justify-content-evenly">
+            @foreach (var item in Model)
             {
-                <div class="card" style="width: 18rem;">
-                    <img src="~/icons/Ready.png" class="card-img-top" alt="ready icon">
-                    <div class="card-body">
-                        <p class="card-text">Устройство @item.UnitNumber на данный момент свободно</p>
+                @if (item.isActive)
+                {
+                    <div class="col-4">
+                        <div class="card" style="width: 12rem;">
+                            <img src="~/icons/Stop.png" class="card-img-top" alt="play icon">
+                            <div class="card-body">
+                                <p class="card-text">Устройство @item.UnitNumber на данный момент используется</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="col-4">
+                        <div class="card" style="width: 12rem;">
+                            <img src="~/icons/Ready.png" class="card-img-top" alt="ready icon">
+                            <div class="card-body">
+                                <p class="card-text">Устройство @item.UnitNumber на данный момент свободно</p>
+                            </div>
+                        </div>
+                    </div>
+                }
             }
-        }
+        </div>
     </div>
 </div>

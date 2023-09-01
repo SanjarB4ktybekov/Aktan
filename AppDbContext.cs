@@ -16,4 +16,5 @@ public class AppDbContext : DbContext
     public DbSet<Unit> Units { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Finances> Finances { get; set; }
+    public DbSet<Log> Logs { get; set; }
 }
