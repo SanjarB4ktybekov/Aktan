@@ -49,13 +49,28 @@ namespace Aktan.Entities
             Sum = Minutes * 2.5;
             Sum -= Sum * (DiscountForCustomer / 100);
         }
-        
+
 
         public double Calculate(double Budget)
         {
             Budget += Budget * DiscountForCustomer / 100;
             double Minutes = Budget / 2.5;
             return Minutes;
+        }
+
+        public static double __Calculate(double input, int userId)
+        {
+            System.Console.WriteLine($"{input} === {userId}");
+            double result;
+
+            using (var db = new AppDbContext())
+            {
+                var _customer = db.Customers.FirstOrDefault(u => u.CustomerId == userId);
+                var DiscountForCustomer = _customer.DiscountForCustomer;
+                input = input + (input * DiscountForCustomer / 100);
+                result = input * 0.6;
+            }
+            return result;
         }
 
         public void SetBudget(double Budget)

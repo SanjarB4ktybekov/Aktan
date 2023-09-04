@@ -9,6 +9,7 @@ using Aktan.Models;
 using Aktan.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 
 namespace Aktan.Controllers
 {
@@ -24,15 +25,11 @@ namespace Aktan.Controllers
             return View();
 
         }
-        public ActionResult GetMessage()
+       public IActionResult Calculate(double input, int role)
         {
-        
-            return PartialView("_GetMessage");
-        }
-
-        public IActionResult Calculate(int input)
-        {
-            return PartialView("Calc", input);
+            var res = UnitController.__Calculate(input, role);
+            string result = res.ToString("N2");
+            return PartialView("Calc", result);
         }
         
 

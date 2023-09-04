@@ -23,7 +23,8 @@
                     }
                 </select>
 
-                <select name="customer" class="form-select text-bg-success p-3" aria-label="Пример выбора по умолчанию">
+                <select id="userRole" name="customer" class="form-select text-bg-success p-3"
+                    aria-label="Пример выбора по умолчанию">
                     @foreach (var item in (List<Customer>)ViewData["Customers"])
                     {
                         <option value="@item.CustomerId">Роль: @item.CustomerName</option>
@@ -36,22 +37,26 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Создать</button>
             </form>
-            @await Html.PartialAsync("_GetMessage")
             <div id="partialViewContainer"></div>
         </div>
     </div>
     <script>
-        // Обработка события ввода
-        document.getElementById("userInput").addEventListener("input", function () {
+
+        const _F = function () {
+            var selectElement = document.getElementById("userRole");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var selectedValue = selectedOption.value;
             var userInput = this.value;
-            fetch("/Home/Calculate?input=" + userInput)
+            fetch("/Home/Calculate?input=" + userInput + "&role=" + selectedValue)
                 .then(response => response.text()) // Возвращает ответ как текст
                 .then(data => {
                     // Обновление содержимого частичного представления
                     document.getElementById("partialViewContainer").innerHTML = data;
                 })
                 .catch(error => console.error("Ошибка: " + error));
-        });
+        }
+
+        document.getElementById("userInput").addEventListener("input", _F);
     </script>
     <hr>
     <div class="container text-center">
