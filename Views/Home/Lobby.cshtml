@@ -41,12 +41,14 @@
         </div>
     </div>
     <script>
+        var selectElement = document.getElementById("userRole");
+        var inputElement = document.getElementById("userInput");
 
-        const _F = function () {
-            var selectElement = document.getElementById("userRole");
+        let globalStore = 0;
+
+        const _F = function (userInput) {
             var selectedOption = selectElement.options[selectElement.selectedIndex];
             var selectedValue = selectedOption.value;
-            var userInput = this.value;
             fetch("/Home/Calculate?input=" + userInput + "&role=" + selectedValue)
                 .then(response => response.text()) // Возвращает ответ как текст
                 .then(data => {
@@ -56,7 +58,14 @@
                 .catch(error => console.error("Ошибка: " + error));
         }
 
-        document.getElementById("userInput").addEventListener("input", _F);
+        inputElement.addEventListener("input", () => {
+            globalStore = inputElement.value;
+            _F(inputElement.value);
+        });
+        selectElement.addEventListener("change", () => {
+            _F(globalStore)
+        });
+
     </script>
     <hr>
     <div class="container text-center">
