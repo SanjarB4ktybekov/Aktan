@@ -1,3 +1,7 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
 namespace Aktan.Entities
 {
     public class Unit
@@ -5,5 +9,7 @@ namespace Aktan.Entities
         public int UnitId { get; set; }
         public int UnitNumber { get; set; }
         public bool isActive { get; set; }
+        [AllowNull]
+        public DateTime CurrentEndTime { get; set; }
     }
 }

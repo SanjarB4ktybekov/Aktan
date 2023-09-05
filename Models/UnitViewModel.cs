@@ -1,3 +1,5 @@
+using System;
+
 namespace Aktan.Models
 {
     public class UnitViewModel
@@ -6,5 +8,6 @@ namespace Aktan.Models
         public int UnitNumber { get; set; }
         public bool isActive { get; set; }
         public string URL{get;set;}
+        public DateTime EndTime { get; set; }
     }
 }

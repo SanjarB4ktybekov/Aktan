@@ -16,10 +16,11 @@ namespace Aktan.Entities
         public DateTime End { get; set; }
         public double Sum { get; set; }
 
-        public UnitController(int unitId, int customerId)
+        public UnitController(int unitId, int customerId, int sum)
         {
             _unitId = unitId;
             _customerId = customerId;
+            Sum = sum;
             using (var db = new AppDbContext())
             {
                 var c = db.Customers.FirstOrDefault(c => c.CustomerId == _customerId);
@@ -27,30 +28,6 @@ namespace Aktan.Entities
             }
         }
         // without realization
-        public void SetTime(double Minutes)
-        {
-            using (var db = new AppDbContext())
-            {
-                var unit = db.Units.FirstOrDefault(u => u.UnitId == _unitId);
-                unit.isActive = true;
-
-                var log = new Log();
-                log.CustomerId = _customerId;
-                log.UnitId = _unitId;
-                log.Start = Start;
-                log.End = End;
-                log.Sum = Sum;
-                db.Logs.Add(log);
-                db.SaveChanges();
-            }
-            Start = DateTime.Now;
-            End = Start.AddMinutes(Minutes);
-            // make dynamic
-            Sum = Minutes * 2.5;
-            Sum -= Sum * (DiscountForCustomer / 100);
-        }
-
-
         public double Calculate(double Budget)
         {
             Budget += Budget * DiscountForCustomer / 100;
@@ -73,12 +50,18 @@ namespace Aktan.Entities
             return result;
         }
 
-        public void SetBudget(double Budget)
+
+        public void Activate()
         {
+            Sum += Sum * DiscountForCustomer / 100;
+            double Minutes = Sum * 0.6;
+            Start = DateTime.Now;
+            End = Start.AddMinutes(Minutes);
             using (var db = new AppDbContext())
             {
                 var unit = db.Units.FirstOrDefault(u => u.UnitId == _unitId);
                 unit.isActive = true;
+                unit.CurrentEndTime = End;
                 var log = new Log();
                 log.CustomerId = _customerId;
                 log.UnitId = _unitId;
@@ -88,10 +71,9 @@ namespace Aktan.Entities
                 db.Logs.Add(log);
                 db.SaveChanges();
             }
-            Budget += Budget * DiscountForCustomer / 100;
-            double Minutes = Budget / 2.5;
-            Start = DateTime.Now;
-            End = Start.AddMinutes(Minutes);
+
+
+
         }
         public void Check()
         {
@@ -101,6 +83,7 @@ namespace Aktan.Entities
                 {
                     var un = db.Units.FirstOrDefault(u => u.UnitId == _unitId);
                     un.isActive = false;
+                    // set push up
                     db.SaveChanges();
                 }
             }
