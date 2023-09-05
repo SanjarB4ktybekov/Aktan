@@ -69,6 +69,7 @@ namespace Aktan.Entities
                 log.Start = Start;
                 log.End = End;
                 log.Sum = Sum;
+                log.Minutes = Minutes;
                 db.Logs.Add(log);
                 db.SaveChanges();
             }

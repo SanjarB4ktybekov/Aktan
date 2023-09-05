@@ -7,7 +7,6 @@
 @model List<UnitViewModel>
 
 <div class="text-center">
-    <a asp-controller="Home" asp-action="Lobby" class="btn btn-primary">Обновить</a>
     <h1 class="display-4">Состояния оборудования</h1>
     <hr>
     <div class="card">
@@ -47,7 +46,7 @@
                     <label for="Sum" class="form-label">Введите сумму</label>
                     <input type="number" class="form-control small" id="userInput" name="Sum">
                 </div>
-                <button type="submit" class="btn btn-primary">Создать</button>
+                <button type="submit" class="btn btn-success">Запустить</button>
             </form>
             <div id="partialViewContainer"></div>
         </div>
@@ -121,4 +120,6 @@
         </div>
     </div>
     <hr>
+    <a asp-controller="Home" asp-action="Lobby" class="btn btn-primary">Обновить</a>
+
 </div>

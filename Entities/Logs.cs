@@ -12,7 +12,9 @@ namespace Aktan.Entities
         public int CustomerId{get;set;}
         public DateTime Start{get;set;}
         public DateTime End{get;set;}
-        public Double Sum{get;set;}
+        public double Sum{get;set;}
+        public double Minutes{get;set;}
+
         //===========================
         public Unit Unit{get;set;}
         public Customer Customer{get;set;}

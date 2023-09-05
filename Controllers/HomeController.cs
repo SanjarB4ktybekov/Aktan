@@ -169,7 +169,22 @@ namespace Aktan.Controllers
 
         public IActionResult Log()
         {
-            return View();
+            List<LogsInfo> logs;
+            using (var db = new AppDbContext())
+            {
+                logs = db.Logs.Select(l => new LogsInfo
+                {
+                    UnitName = l.Unit.UnitNumber,
+                    CustomerName = l.Customer.CustomerName,
+                    DiscountForCustomer = l.Customer.DiscountForCustomer,
+                    Start = l.Start.ToShortDateString(),
+                    End = l.End.ToShortTimeString(),
+                    Sum = l.Sum,
+                    Minutes = l.Minutes
+                }).ToList();
+
+            }
+            return View(logs);
         }
 
         public IActionResult Privacy()

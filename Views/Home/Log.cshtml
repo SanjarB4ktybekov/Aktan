@@ -1,13 +1,29 @@
-@model Report
+@model List<LogsInfo>
 
 @{
-    ViewData["Title"] = "Приветственная страница";
+    ViewData["Title"] = "Записи";
 }
 
 <div class="text-center grid text-center">
     <div class="card">
         <div class="card-body">
+            <h1>Logs:</h1>
+            @foreach (var item in Model)
+            {
+                <hr>
+                <div class="card">
+                    <div class="card-body">
+                        <div>Оборудование: @item.UnitName</div>
+                        <div>Клиент: @item.CustomerName</div>
+                        <div>Была скидка в @item.DiscountForCustomer %</div>
+                        <div>Начало работы: @item.End</div>
+                        <div>Время окончания: @item.End</div>
+                        <div>Проработано минут: @item.Minutes</div>
 
+                        <div>Итоговая сумма: @item.Sum</div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 
