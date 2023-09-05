@@ -11,5 +11,6 @@ namespace Aktan.Entities
         public bool isActive { get; set; }
         [AllowNull]
         public DateTime CurrentEndTime { get; set; }
+        public double LastSum{get;set;}
     }
 }

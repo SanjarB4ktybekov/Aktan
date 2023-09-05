@@ -7,6 +7,7 @@
 @model List<UnitViewModel>
 
 <div class="text-center">
+    <a asp-controller="Home" asp-action="Lobby" class="btn btn-primary">Обновить</a>
     <h1 class="display-4">Состояния оборудования</h1>
     <hr>
     <div class="card">
@@ -93,7 +94,7 @@
                                 <p class="card-text">Время окончания: @item.EndTime</p>
                                 @if (item.EndTime < DateTime.Now)
                                 {
-                                    <form method="post" action="/Home/Stop">
+                                    <form method="post" action="/Home/Stop?unitId=@item.UnitId">
                                         <button type="submit" class="btn btn-primary">Остановить</button>
                                     </form>
                                 }

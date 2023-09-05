@@ -1,0 +1,16 @@
+@model Report
+
+@{
+    ViewData["Title"] = "Приветственная страница";
+}
+
+<div class="text-center grid text-center">
+    <div class="card">
+        <div class="card-body">
+            <h1>Работа оборудования завершена!</h1>
+            <h1>Дата завершения: @ViewData["EndTime"]</h1>
+            <h1>Итоговая сумма за операцию @ViewData["LastSum"]</h1>
+        </div>
+    </div>
+
+</div>

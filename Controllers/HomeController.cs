@@ -37,22 +37,29 @@ namespace Aktan.Controllers
                     var c1 = new Customer
                     {
                         CustomerName = "Vip",
-                        DiscountForCustomer = 10
+                        DiscountForCustomer = 20
                     }; var c2 = new Customer
                     {
-                        CustomerName = "Vip Extra",
-                        DiscountForCustomer = 25
+                        CustomerName = "Vip Plus",
+                        DiscountForCustomer = 40
+                    };
+                    var c3 = new Customer
+                    {
+                        CustomerName = "Super VIP",
+                        DiscountForCustomer = 60
                     };
                     db.Customers.Add(c);
                     db.Customers.Add(c1);
                     db.Customers.Add(c2);
+                    db.Customers.Add(c3);
+
 
                 }
                 if (db.Units.Count() == 0)
                 {
                     var unit1 = new Unit
                     {
-                        UnitNumber = 0,
+                        UnitNumber = 1,
                         isActive = false,
                         CurrentEndTime = DateTime.Now
                     };
@@ -68,10 +75,31 @@ namespace Aktan.Controllers
                         isActive = false,
                         CurrentEndTime = DateTime.Now
                     };
+                    var unit4 = new Unit
+                    {
+                        UnitNumber = 4,
+                        isActive = false,
+                        CurrentEndTime = DateTime.Now
+                    };
+                    var unit5 = new Unit
+                    {
+                        UnitNumber = 5,
+                        isActive = false,
+                        CurrentEndTime = DateTime.Now
+                    };
+                    var unit6 = new Unit
+                    {
+                        UnitNumber = 6,
+                        isActive = false,
+                        CurrentEndTime = DateTime.Now
+                    };
 
                     db.Units.Add(unit1);
                     db.Units.Add(unit2);
                     db.Units.Add(unit3);
+                    db.Units.Add(unit4);
+                    db.Units.Add(unit5);
+                    db.Units.Add(unit6);
                     db.SaveChanges();
                 }
             }
@@ -88,7 +116,6 @@ namespace Aktan.Controllers
         [HttpPost]
         public IActionResult MakeOrder(int unit, int Sum, int customer)
         {
-            System.Console.WriteLine($"Unit = {unit}, Sum = {Sum}, Cus = {customer}");
             var unitController = new UnitController(unit, customer, Sum);
             unitController.Activate();
 
@@ -104,15 +131,24 @@ namespace Aktan.Controllers
                     isActive = u.isActive,
                     URL = u.isActive ? "~/icons/Play.png" : "~/icons/Ready.png"
                 }).ToList();
-            return View("Lobby", list);
+            return RedirectToAction("Lobby", list);
             #endregion
         }
         [HttpPost]
-        public IActionResult Stop()
+        public IActionResult Stop(int unitId)
         {
-            
+            using (var db = new AppDbContext())
+            {
+                var unit = db.Units.FirstOrDefault(u => u.UnitId == unitId);
+                unit.isActive = false;
+                db.Units.Update(unit);
+                db.SaveChanges();
+                ViewData["EndTime"] = unit.CurrentEndTime;
+                ViewData["LastSum"] = unit.LastSum;
+            }
+            var r = new Report();
             System.Console.WriteLine("I am here");
-            return View("Index");
+            return View(r);
         }
 
         public IActionResult Lobby()
@@ -130,6 +166,12 @@ namespace Aktan.Controllers
                 }).ToList();
             return View(list);
         }
+
+        public IActionResult Log()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

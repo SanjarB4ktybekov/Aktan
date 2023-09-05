@@ -62,6 +62,7 @@ namespace Aktan.Entities
                 var unit = db.Units.FirstOrDefault(u => u.UnitId == _unitId);
                 unit.isActive = true;
                 unit.CurrentEndTime = End;
+                unit.LastSum = Sum;
                 var log = new Log();
                 log.CustomerId = _customerId;
                 log.UnitId = _unitId;
