@@ -7,6 +7,7 @@ namespace Aktan.Models
 {
     public class LogsInfo
     {
+        public int LogId{get;set;}
         public int UnitName { get; set; }
         public string CustomerName { get; set; }
         public double DiscountForCustomer { get; set; }

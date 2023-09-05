@@ -174,6 +174,7 @@ namespace Aktan.Controllers
             {
                 logs = db.Logs.Select(l => new LogsInfo
                 {
+                    LogId = l.LogId,
                     UnitName = l.Unit.UnitNumber,
                     CustomerName = l.Customer.CustomerName,
                     DiscountForCustomer = l.Customer.DiscountForCustomer,

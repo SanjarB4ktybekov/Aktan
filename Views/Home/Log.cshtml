@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Записи";
+    double sum = 0;
 }
 
 <div class="text-center grid text-center">
@@ -10,9 +11,14 @@
             <h1>Logs:</h1>
             @foreach (var item in Model)
             {
+                {
+                    sum += item.Sum;
+                }
+
                 <hr>
                 <div class="card">
                     <div class="card-body">
+                        <div class="strong">Индекс записи: @item.LogId </div>
                         <div>Оборудование: @item.UnitName</div>
                         <div>Клиент: @item.CustomerName</div>
                         <div>Была скидка в @item.DiscountForCustomer %</div>
@@ -26,5 +32,9 @@
             }
         </div>
     </div>
+    <hr>
+    <div>
 
+        Итого было проведено операций на сумму: @sum.ToString("N2");
+    </div>
 </div>
